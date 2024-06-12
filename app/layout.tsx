@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 //import '@stream-io/video-react-sdk/dist/css/style.css'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const inter = Inter({ subsets: ["latin"] });
 
