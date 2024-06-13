@@ -1,9 +1,9 @@
 import { revalidatePath } from 'next/cache';
 import { v2 as cloudinary } from 'cloudinary';
 
-import Container from '@/components/Container';
-import CldImage from '@/components/CldImage';
-import Button from '@/components/Button';
+import Container from '@/components/Container/Container';
+import CldImage from '@/components/CldImage/CldImage';
+import Button from '@/components/Button/Button';
 
 import images from '@/data/images.json';
 
