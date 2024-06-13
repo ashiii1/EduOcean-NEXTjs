@@ -16,6 +16,11 @@ export const sidebarLinks = [
       label: 'Previous',
     },
     {
+      imgURL: '/icons/previous.svg',
+      route: '/course-page',
+      label: 'Course',
+    },
+    {
       imgURL: '/icons/Video.svg',
       route: '/recordings',
       label: 'Recordings',
