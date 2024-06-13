@@ -22,7 +22,7 @@ interface CloudinaryResource {
   secure_url: string;
 }
 
-async function Home() {
+async function CoursePage() {
   const { resources: sneakers } = await cloudinary.api.resources_by_tag('nextjs-server-actions-upload-sneakers', { context: true });
 
   async function create(formData: FormData) {
@@ -110,4 +110,4 @@ async function Home() {
   )
 }
 
-export default Home;
+export default CoursePage;
