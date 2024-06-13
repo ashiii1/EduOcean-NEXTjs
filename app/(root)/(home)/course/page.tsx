@@ -25,9 +25,15 @@ const Course = () => {
   const [sneakers, setSneakers] = useState<CloudinaryResource[]>([]);
 
   useEffect(() => {
+    console.log('Fetching sneakers...');
     const fetchSneakers = async () => {
-      const { resources } = await cloudinary.api.resources_by_tag('nextjs-server-actions-upload-sneakers', { context: true });
-      setSneakers(resources);
+      try {
+        const { resources } = await cloudinary.api.resources_by_tag('nextjs-server-actions-upload-sneakers', { context: true });
+        console.log('Sneakers fetched successfully:', resources);
+        setSneakers(resources);
+      } catch (error) {
+        console.error('Error fetching sneakers:', error);
+      }
     };
     fetchSneakers();
   }, []);
@@ -51,6 +57,7 @@ const Course = () => {
       }).end(buffer);
     });
 
+    console.log('Image uploaded successfully');
     revalidatePath('/');
   };
 
