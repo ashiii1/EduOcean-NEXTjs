@@ -1,17 +1,16 @@
 import { revalidatePath } from 'next/cache';
 import { v2 as cloudinary } from 'cloudinary';
-
 import Container from '@/components/Container/Container';
 import CldImage from '@/components/CldImage/CldImage';
 import Button from '@/components/Button/Button';
-
 import images from '@/data/images.json';
+import { useState, useEffect } from 'react';
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+});
 
 interface CloudinaryResource {
   context?: {
@@ -22,11 +21,19 @@ interface CloudinaryResource {
   secure_url: string;
 }
 
-async function CoursePage() {
-  const { resources: sneakers } = await cloudinary.api.resources_by_tag('nextjs-server-actions-upload-sneakers', { context: true });
+const Course = () => {
+  const [sneakers, setSneakers] = useState<CloudinaryResource[]>([]);
 
-  async function create(formData: FormData) {
-    'use server'
+  useEffect(() => {
+    const fetchSneakers = async () => {
+      const { resources } = await cloudinary.api.resources_by_tag('nextjs-server-actions-upload-sneakers', { context: true });
+      setSneakers(resources);
+    };
+    fetchSneakers();
+  }, []);
+
+  const create = async (formData: FormData) => {
+    'use server';
     const file = formData.get('image') as File;
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
@@ -34,19 +41,19 @@ async function CoursePage() {
     await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream({
         tags: ['nextjs-server-actions-upload-sneakers'],
-        upload_preset: 'nextjs-server-actions-upload'
+        upload_preset: 'nextjs-server-actions-upload',
       }, function (error, result) {
         if (error) {
           reject(error);
           return;
         }
         resolve(result);
-      })
-      .end(buffer);
+      }).end(buffer);
     });
 
-    revalidatePath('/')
-  }
+    revalidatePath('/');
+  };
+
   return (
     <Container>
       <h2 className="text-xl font-bold mb-4">Add a New Image</h2>
@@ -67,47 +74,41 @@ async function CoursePage() {
       </form>
       <h2 className="text-xl font-bold mb-4">Images</h2>
       <ul className="grid gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-12">
-        {sneakers.map((sneaker: CloudinaryResource) => {
-          return (
-            <li key={sneaker.public_id} className="rounded overflow-hidden bg-white dark:bg-slate-700">
-              <div className="relative">
-                <CldImage
-                  width={800}
-                  height={600}
-                  src={sneaker.public_id}
-                  alt={sneaker.context?.alt || ''}
-                />
+        {sneakers.map((sneaker) => (
+          <li key={sneaker.public_id} className="rounded overflow-hidden bg-white dark:bg-slate-700">
+            <div className="relative">
+              <CldImage
+                width={800}
+                height={600}
+                src={sneaker.public_id}
+                alt={sneaker.context?.alt || ''}
+              />
+            </div>
+            {sneaker.context?.caption && (
+              <div className="py-4 px-5">
+                <p className="mb-1 text-md font-bold leading-tight text-neutral-800 dark:text-neutral-50">
+                  {sneaker.context?.caption || ''}
+                </p>
               </div>
-              { sneaker.context?.caption && (
-                <div className="py-4 px-5">
-                  <p className="mb-1 text-md font-bold leading-tight text-neutral-800 dark:text-neutral-50">
-                    { sneaker.context?.caption || '' }
-                  </p>
-                </div>
-              )}
-              
-            </li>
-          )
-        })}
+            )}
+          </li>
+        ))}
       </ul>
       <h2 className="text-xl font-bold mb-4">Links</h2>
       <ul>
-        {images.map(image => {
-          return (
-            <li key={image.name}>
-              { image.name }: <a className="text-blue-600" href={image.link}>{ image.link }</a>
-            </li>
-          );
-        })}
+        {images.map((image) => (
+          <li key={image.name}>
+            {image.name}: <a className="text-blue-600" href={image.link}>{image.link}</a>
+          </li>
+        ))}
       </ul>
-
       <div className="mt-12 py-10 border-[0] border-t border-solid border-slate-300">
         <p>
           Find more Cloudinary examples at: <a className="underline text-inherit" href="https://github.com/cloudinary-community/cloudinary-examples">github.com/cloudinary-community/cloudinary-examples</a>.
         </p>
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default CoursePage;
+export default Course;
