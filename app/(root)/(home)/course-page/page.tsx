@@ -1,3 +1,5 @@
+"use client"; // This marks the file as a Client Component
+
 import { revalidatePath } from 'next/cache';
 import { v2 as cloudinary } from 'cloudinary';
 import Container from '@/components/Container/Container';
@@ -38,33 +40,38 @@ const CoursePage = () => {
     fetchSneakers();
   }, []);
 
-  const create = async (formData: FormData) => {
-    'use server';
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
     const file = formData.get('image') as File;
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream({
-        tags: ['nextjs-server-actions-upload-sneakers'],
-        upload_preset: 'nextjs-server-actions-upload',
-      }, function (error, result) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(result);
-      }).end(buffer);
-    });
-
-    console.log('Image uploaded successfully');
-    revalidatePath('/');
+    try {
+      await new Promise((resolve, reject) => {
+        cloudinary.uploader.upload_stream({
+          tags: ['nextjs-server-actions-upload-sneakers'],
+          upload_preset: 'nextjs-server-actions-upload',
+        }, function (error, result) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve(result);
+        }).end(buffer);
+      });
+      console.log('Image uploaded successfully');
+      revalidatePath('/');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
 
   return (
     <Container>
       <h2 className="text-xl font-bold mb-4">Add a New Image</h2>
-      <form action={create} className="bg-white border border-slate-200 dark:border-slate-500 rounded p-6 mb-6">
+      <form onSubmit={handleSubmit} className="bg-white border border-slate-200 dark:border-slate-500 rounded p-6 mb-6">
         <p className="mb-6">
           <label htmlFor="image" className="block font-semibold text-sm mb-2">
             Select an Image to Upload
