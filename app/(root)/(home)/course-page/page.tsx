@@ -21,7 +21,7 @@ interface CloudinaryResource {
   secure_url: string;
 }
 
-const Course = () => {
+const CoursePage = () => {
   const [sneakers, setSneakers] = useState<CloudinaryResource[]>([]);
 
   useEffect(() => {
@@ -118,4 +118,4 @@ const Course = () => {
   );
 };
 
-export default Course;
+export default CoursePage;
