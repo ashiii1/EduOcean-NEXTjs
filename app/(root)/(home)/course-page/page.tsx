@@ -1,18 +1,10 @@
-"use client"; // This marks the file as a Client Component
+"use client";
 
-import { revalidatePath } from 'next/cache';
-import { v2 as cloudinary } from 'cloudinary';
+import { useState, useEffect } from 'react';
 import Container from '@/components/Container/Container';
 import CldImage from '@/components/CldImage/CldImage';
 import Button from '@/components/Button/Button';
 import images from '@/data/images.json';
-import { useState, useEffect } from 'react';
-
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 interface CloudinaryResource {
   context?: {
@@ -27,12 +19,11 @@ const CoursePage = () => {
   const [sneakers, setSneakers] = useState<CloudinaryResource[]>([]);
 
   useEffect(() => {
-    console.log('Fetching sneakers...');
     const fetchSneakers = async () => {
       try {
-        const { resources } = await cloudinary.api.resources_by_tag('nextjs-server-actions-upload-sneakers', { context: true });
-        console.log('Sneakers fetched successfully:', resources);
-        setSneakers(resources);
+        const response = await fetch('/api/upload');
+        const data = await response.json();
+        setSneakers(data.resources);
       } catch (error) {
         console.error('Error fetching sneakers:', error);
       }
@@ -45,27 +36,30 @@ const CoursePage = () => {
     const formData = new FormData(event.currentTarget);
 
     const file = formData.get('image') as File;
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = reader.result;
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ file: base64 }),
+        });
 
-    try {
-      await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload_stream({
-          tags: ['nextjs-server-actions-upload-sneakers'],
-          upload_preset: 'nextjs-server-actions-upload',
-        }, function (error, result) {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve(result);
-        }).end(buffer);
-      });
-      console.log('Image uploaded successfully');
-      revalidatePath('/');
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    }
+        if (response.ok) {
+          console.log('Image uploaded successfully');
+          const newSneaker = await response.json();
+          setSneakers((prev) => [...prev, newSneaker]);
+        } else {
+          console.error('Error uploading image:', await response.text());
+        }
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    };
+    reader.readAsDataURL(file as Blob);
   };
 
   return (
