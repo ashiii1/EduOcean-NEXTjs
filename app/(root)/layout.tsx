@@ -6,7 +6,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata={
   title:"LearnPro",
 
-description:"Learning APP",
+description:"Learning  APP",
 icons:{
   icon: '/icons/logo.svg'
 }}
