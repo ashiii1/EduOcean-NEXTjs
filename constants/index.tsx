@@ -23,7 +23,7 @@ export const sidebarLinks = [
     {
       imgURL: '/icons/Video.svg',
       route: '/assesments',
-      label: 'Assesments',
+      label: 'Assesment',
     },
     {
       imgURL: '/icons/Video.svg',
