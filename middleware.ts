@@ -7,7 +7,8 @@ const protectedRoute = createRouteMatcher([
   '/previous',
   '/recordings',
   '/personal-room',
-  '/course-page'
+  '/course-page',
+  'assesments'
 ]);
 
 export default clerkMiddleware((auth, req) => {
