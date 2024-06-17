@@ -4,9 +4,9 @@ import { Metadata } from 'next'
 
 
 export const metadata: Metadata={
-  title:"YOOM",
+  title:"LearnPro",
 
-description:"VIDEO APP",
+description:"Learning APP",
 icons:{
   icon: '/icons/logo.svg'
 }}
