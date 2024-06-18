@@ -3,7 +3,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 Description:
-Our Next.js project is a robust platform designed to facilitate seamless video conferencing using Stream API, integrated with Clerk API for secure sign-in and login processes. This versatile application caters to educational institutions, providing a comprehensive suite of features for managing video calls, educational content, assessments, and student interactions.
+
+Learning Platform
+
+~Live Streaming classes
+~Recordings, Upcoming meetings
+~Course videos
+~Assessments
+~Ask Queries
+
+
+ Next.js project is a robust platform designed to facilitate seamless video conferencing using Stream API, integrated with Clerk API for secure sign-in and login processes. This versatile application caters to educational institutions, providing a comprehensive suite of features for managing video calls, educational content, assessments, and student interactions.
 
 Key Features:
 
