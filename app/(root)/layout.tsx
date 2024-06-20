@@ -4,11 +4,11 @@ import { Metadata } from 'next'
 
 
 export const metadata: Metadata={
-  title:"LearnPro",
+  title:"EduOcean",
 
 description:"Learning  APP",
 icons:{
-  icon: '/icons/logo.svg'
+  icon: '/icons/imas.png'
 }}
 const RootLayout = ({children}: {children : ReactNode}) => {
   return (

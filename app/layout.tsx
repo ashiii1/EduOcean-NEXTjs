@@ -11,10 +11,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LearnPro",
-  description: "Video calling App",
+  title: "EduOcean",
+  description: "Student Learning Platform",
   icons: {
-    icon: "/icons/logo.svg",
+    icon: "/icons/imas.png",
   },
 };
 
