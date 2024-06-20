@@ -21,11 +21,11 @@ const config = {
     extend: {
       colors: { 
         dark:{
-           1: '#1C1F2E',
+           1: '#000000',
            2: '#161925',
         },
         blue:{
-            1: '#0E78F9'
+            1: '#000000'
         },
         sky:{
           1: '#C9DDFF',
@@ -33,7 +33,7 @@ const config = {
           3: '#F5FCFF',
         },
         orange:{
-          1: '#FF742E',
+          1: '#5D100A',
 
         },
         purple:{
