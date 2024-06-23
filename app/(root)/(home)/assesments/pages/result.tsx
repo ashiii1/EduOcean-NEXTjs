@@ -1,6 +1,6 @@
 import Link from "next/link";
 import useSWR from "swr";
-import { TQuiz, TSavedAnswer } from "../types/quiz";
+import { TQuiz, TSavedAnswer } from "/home/ashi/Desktop/vdcf/video-Conf-with-NEXTjs/types/quiz";
 import styles from "../styles/Quiz.module.css";
 
 export default function Result() {
