@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import useSWR from "swr";
-import { TSavedAnswer } from "../types/quiz";
+import { TSavedAnswer } from "";
 import styles from "../styles/Quiz.module.css";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
