@@ -8,7 +8,7 @@ const protectedRoute = createRouteMatcher([
   '/recordings',
   '/personal-room',
   '/course-page',
-  '/assesments',
+  '/src',
   '/student-queries'
 ]);
 
@@ -19,5 +19,6 @@ export default clerkMiddleware((auth, req) => {
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };
+
 
 

@@ -22,7 +22,7 @@ export const sidebarLinks = [
     },
     {
       imgURL: '/icons/Video.svg',
-      route: '/assesments',
+      route: '/src',
       label: 'Assesment',
     },
     {
