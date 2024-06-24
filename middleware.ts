@@ -8,7 +8,8 @@ const protectedRoute = createRouteMatcher([
   '/recordings',
   '/personal-room',
   '/course-page',
-  '/src/*',
+  '/src',
+  'src/*',
   '/student-queries'
 ]);
 
