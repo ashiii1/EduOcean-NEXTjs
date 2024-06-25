@@ -2,14 +2,14 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import useSWR from 'swr';
-import { TSavedAnswer } from '../../types/quiz';
+import { TSavedAnswer } from '../lg/types/quiz';
 import styles from '../../styles/Quiz.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Assessment() {
   const router = useRouter();
-  const Ref = useRef<NodeJS.Timer | null>(null);
+  const Ref = useRef<number | null>(null); // Change here
   const [timer, setTimer] = useState("00:10:00");
 
   const getTimeRemaining = (e: Date) => {
@@ -41,7 +41,7 @@ export default function Assessment() {
   const clearTimer = (e: Date) => {
     setTimer("00:10:00");
     if (Ref.current) clearInterval(Ref.current);
-    const id = setInterval(() => {
+    const id = window.setInterval(() => {
       startTimer(e);
     }, 1000);
     Ref.current = id;
@@ -55,6 +55,9 @@ export default function Assessment() {
 
   useEffect(() => {
     clearTimer(getDeadTime());
+    return () => {
+      if (Ref.current) clearInterval(Ref.current); // Cleanup on unmount
+    };
   }, []);
 
   const [pageIndex, setPageIndex] = useState(0);
