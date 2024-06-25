@@ -1,5 +1,5 @@
-// pages/assessment/page.tsx
-import { useRouter } from 'next/router';
+"use-client"
+import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import useSWR from 'swr';
 import { TSavedAnswer } from '../lg/types/quiz';
