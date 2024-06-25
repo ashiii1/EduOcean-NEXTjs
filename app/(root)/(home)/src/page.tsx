@@ -1,9 +1,10 @@
-"use-client"
+"use client";
+
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import useSWR from 'swr';
-import { TSavedAnswer } from '../lg/types/quiz';
-import styles from '../../styles/Quiz.module.css';
+import { TSavedAnswer } from '../src/types/quiz';
+import styles from '../src/styles/Quiz.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -63,7 +64,7 @@ export default function Assessment() {
   const [pageIndex, setPageIndex] = useState(0);
   const [answered, setAnswered] = useState<TSavedAnswer>({});
 
-  const { data, error } = useSWR(`/api/quiz?page=${pageIndex}`, fetcher);
+const { data, error } = useSWR(`/api/quiz?page=${pageIndex}`, fetcher);
 
   if (error) {
     return (
